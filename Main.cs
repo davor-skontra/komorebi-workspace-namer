@@ -84,7 +84,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             using Process process = new();
             process.StartInfo.FileName = "powershell.exe";
-            process.StartInfo.Arguments = $"-c komorebic workspace-name {info.MonitorIdx} {info.WorkspaceIdx} \"{info.Name}\"";
+            process.StartInfo.Arguments = $"-c komorebic workspace-name {info.MonitorIdx} {info.WorkspaceIdx} \"\"\"{info.Name}\"\"\"";
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.Start();
