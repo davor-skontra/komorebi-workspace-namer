@@ -1,0 +1,12 @@
+{
+    "ID": "5745C972E7BF4D0AA60C66723FFC054F",
+    "ActionKeyword": "-wn",
+    "Name": "KomorebiWorkspaceNamer",
+    "Description": "Rename your focused Komorebi workspace.",
+    "Author": "davor-skontra",
+    "Version": "1.0.0",
+    "Language": "csharp",
+    "Website": "https://github.com/davor-skontra/Flow.Launcher.Plugin.KomorebiWorkspaceNamer",
+    "IcoPath": "icon.png",
+    "ExecuteFileName": "Flow.Launcher.Plugin.KomorebiWorkspaceNamer.dll"
+}
