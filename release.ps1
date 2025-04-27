@@ -1,0 +1,2 @@
+dotnet publish Flow.Launcher.Plugin.KomorebiWorkspaceNamer -c Release -r win-x64 --no-self-contained
+Compress-Archive -LiteralPath Flow.Launcher.Plugin.KomorebiWorkspaceNamer/bin/Release/win-x64/publish -DestinationPath Flow.Launcher.Plugin.KomorebiWorkspaceNamer/bin/KomorebiWorkspaceNamer.zip -Force
