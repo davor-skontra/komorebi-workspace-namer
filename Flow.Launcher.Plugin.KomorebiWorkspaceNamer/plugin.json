@@ -1,6 +1,6 @@
 {
     "ID": "5745C972E7BF4D0AA60C66723FFC054F",
-    "ActionKeyword": "-wn",
+    "ActionKeyword": "wn",
     "Name": "KomorebiWorkspaceNamer",
     "Description": "Rename your focused Komorebi workspace.",
     "Author": "davor-skontra",
