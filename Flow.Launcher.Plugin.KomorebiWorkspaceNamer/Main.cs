@@ -52,11 +52,11 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
         private Result GetRenameResult(string rawName, WorkspaceInfo info, bool appendPosition)
         {
-            var newName = GetNewWorkspaceName(rawName, info.WorkspaceIdx, appendPosition);
-
             var title = string.IsNullOrWhiteSpace(rawName)
-                ? $"Rename workspace '{info.Name}' to ..."
-                : $"Rename workspace: '{info.Name}' to '{newName}'";
+                ? $"Rename workspace '{rawName}' to ..."
+                : $"Rename workspace: '{rawName}' to '{rawName}'";
+
+            var nameWithPosition = GetNameWithPosition(rawName, info.WorkspaceIdx, appendPosition);
 
             return new()
             {
@@ -67,17 +67,17 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                     {
                         var stateJson = ProcessCalls.GetStateJson();
                         _workspaceInfo ??= new WorkspaceInfo(stateJson);
-                        newName = rawName;
+                        nameWithPosition = GetNameWithPosition(rawName, info.WorkspaceIdx, appendPosition);;
                     }
 
-                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = newName });
+                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = nameWithPosition });
                     _workspaceInfo = null;
                     return true;
                 }
             };
         }
-
-        private string GetNewWorkspaceName(string userInput, int idx, bool appendWorkspacePosition) =>
+        
+        private string GetNameWithPosition(string userInput, int idx, bool appendWorkspacePosition) =>
             appendWorkspacePosition
                 ? $"{userInput} ({idx + 1})"
                 : userInput;
