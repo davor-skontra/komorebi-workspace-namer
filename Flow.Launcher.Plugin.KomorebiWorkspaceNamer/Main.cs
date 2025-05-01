@@ -72,6 +72,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                     }
 
                     ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = newName });
+                    _context.API.ChangeQuery("", true);
                     _workspaceInfo = null;
                     return true;
                 }
