@@ -62,6 +62,9 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes
     {
         [JsonPropertyName("elements")]
         public ContainerElement[] Elements { get; set; }
+        
+        [JsonPropertyName("focused")]
+        public int Focused { get; set; }    
     }
     
     public class ContainerElement

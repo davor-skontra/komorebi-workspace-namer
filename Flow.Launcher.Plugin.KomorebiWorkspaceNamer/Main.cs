@@ -23,7 +23,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             if (_workspaceInfo == null)
             {
-                var stateJson = GetStateJson();
+                var stateJson = ProcessCalls.GetStateJson();
                 _workspaceInfo ??= new WorkspaceInfo(stateJson);
             }
             
@@ -60,12 +60,12 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 {
                     if (_workspaceInfo == null)
                     {
-                        var stateJson = GetStateJson();
+                        var stateJson = ProcessCalls.GetStateJson();
                         _workspaceInfo ??= new WorkspaceInfo(stateJson);
                         newName = rawName;
                     }
 
-                    RenameWorkspace(_workspaceInfo with { Name = newName });
+                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = newName });
                     _workspaceInfo = null;
                     return true;
                 }
@@ -77,27 +77,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 ? $"{userInput} ({idx + 1})"
                 : userInput;
 
-        private string GetStateJson()
-        {
-            using Process process = new();
-            process.StartInfo.FileName = "powershell.exe";
-            process.StartInfo.Arguments = "-c komorebic state";
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd();
-            return output;
-        }
 
-        private void RenameWorkspace(WorkspaceInfo info)
-        {
-            using Process process = new();
-            process.StartInfo.FileName = "powershell.exe";
-            process.StartInfo.Arguments = $"-c komorebic workspace-name {info.MonitorIdx} {info.WorkspaceIdx} \"\"\"{info.Name}\"\"\"";
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.Start();
-        }
 
         public Control CreateSettingPanel()
         {

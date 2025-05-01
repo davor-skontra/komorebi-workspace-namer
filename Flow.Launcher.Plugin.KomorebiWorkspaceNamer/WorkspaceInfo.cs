@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
@@ -12,7 +13,7 @@ public record WorkspaceInfo
     public string Name { get; init; }
 
     private HashSet<string> _windowTitlesSorted;
-    public IEnumerable<string> SortedWindowTitles { get; init; }
+    public IEnumerable<string> SortedWindowTitles => _windowTitlesSorted;
     
     public WorkspaceInfo(string stateJson)
     {
@@ -22,30 +23,27 @@ public record WorkspaceInfo
         var activeWorkspaceIdx = (int) state
             .Monitors.Elements[activeMonitorIdx]
             .Workspaces.Focused;
-        var name = state
+        var activeWorkspace = state
             .Monitors.Elements[activeMonitorIdx]
-            .Workspaces.Elements[activeWorkspaceIdx]
-            .Name;
+            .Workspaces.Elements[activeWorkspaceIdx];
+            
+            var name = activeWorkspace.Name;
                 
         MonitorIdx = activeMonitorIdx;
         WorkspaceIdx = activeWorkspaceIdx;
         Name = name;
 
-        _windowTitlesSorted = GetSortedWindowTitles(state, activeWorkspaceIdx, activeWorkspaceIdx);
+        _windowTitlesSorted = GetSortedWindowTitles(state, activeWorkspace);
     }
 
-    private HashSet<string> GetSortedWindowTitles(State state, int monitorIdx, int workspaceIdx)
+    private HashSet<string> GetSortedWindowTitles(State state, WorkspacesElement workspace)
     {
-        var workspace = state
-            .Monitors.Elements[monitorIdx]
-            .Workspaces.Elements[workspaceIdx];
-
-        var containerIdx = workspace.Focused;
+        var containerIdx =  workspace.Containers.Focused;
         var windows = workspace
             .Containers
             .Elements[containerIdx]
             .Windows;
-
+        
         var windowIdx = windows.Focused;
         var windowTitle = windows.Elements[windowIdx].Title;
 
