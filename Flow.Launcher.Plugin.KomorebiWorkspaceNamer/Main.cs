@@ -30,6 +30,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             var search = query.Search;
             var appendPosition = _settings.AppendPosition;
             List<Result> results = new();
+            
             if (!string.IsNullOrWhiteSpace(search))
             {
                 var manualRename = GetRenameResult(query.Search, _workspaceInfo, appendPosition);
@@ -53,9 +54,13 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             var newName = GetNewWorkspaceName(rawName, info.WorkspaceIdx, appendPosition);
 
+            var title = string.IsNullOrWhiteSpace(rawName)
+                ? $"Rename workspace: '{info.Name}' to '{newName}'"
+                : $"Rename workspace '{info.Name}' to ...";
+
             return new()
             {
-                Title = $"Rename workspace: '{info.Name}' to '{newName}'",
+                Title = title,
                 Action = _ =>
                 {
                     if (_workspaceInfo == null)
