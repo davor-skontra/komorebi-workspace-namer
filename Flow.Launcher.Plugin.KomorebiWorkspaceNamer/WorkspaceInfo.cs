@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
 
@@ -33,19 +34,33 @@ public record WorkspaceInfo
         WorkspaceIdx = activeWorkspaceIdx;
         Name = name;
 
-        _windowTitlesSorted = GetSortedWindowTitles(state, activeWorkspace);
+        _windowTitlesSorted = GetSortedWindowTitles(state, activeWorkspace) 
+                              ?? new HashSet<string>();
     }
 
-    private HashSet<string> GetSortedWindowTitles(State state, WorkspacesElement workspace)
+    private HashSet<string>? GetSortedWindowTitles(State state, WorkspacesElement workspace)
     {
         var containerIdx =  workspace.Containers.Focused;
-        var windows = workspace
+        var containerElements = workspace
             .Containers
-            .Elements[containerIdx]
-            .Windows;
+            .Elements;
+
+        if (!containerElements.Any())
+        {
+            return null;
+        }
+        
+        var windows = containerElements[containerIdx].Windows;
         
         var windowIdx = windows.Focused;
-        var windowTitle = windows.Elements[windowIdx].Title;
+        var windowElements = windows.Elements;
+
+        if (!windowElements.Any())
+        {
+            return null;
+        }
+        
+        var windowTitle = windowElements[windowIdx].Title;
 
         HashSet<string> titles = new() { windowTitle };
         
