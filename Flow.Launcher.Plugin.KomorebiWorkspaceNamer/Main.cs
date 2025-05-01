@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.Json;
 using System.Windows.Controls;
-using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
 using SettingsControl = Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig.SettingsControl;
 
@@ -20,63 +18,66 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             _context = context;
             _settings = context.API.LoadSettingJsonStorage<Settings>();
         }
-        
 
         public List<Result> Query(Query query)
         {
             if (_workspaceInfo == null)
             {
-                var stateMsg = GetStateMsg();
-                _workspaceInfo ??= GetActiveWorkspaceInfo(stateMsg);
+                var stateJson = GetStateJson();
+                _workspaceInfo ??= new WorkspaceInfo(stateJson);
             }
-
-            var newTitle = GetNewTitle(query.Search, _workspaceInfo.WorkspaceIdx, _settings.AppendPosition);
             
-            Result r = new()
+            var search = query.Search;
+            var appendPosition = _settings.AppendPosition;
+            List<Result> results = new();
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                Title = $"Renaming workspace: '{_workspaceInfo.Name}' to '{newTitle}'",
+                var manualRename = GetRenameResult(query.Search, _workspaceInfo, appendPosition);
+                results.Add(manualRename);
+            }
+            
+            results.AddRange(GetAppRenameResults(_workspaceInfo, appendPosition));
+            
+            return results;
+        }
+
+        private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, bool appendPosition)
+        {
+            foreach (var title in info.SortedWindowTitles)
+            {
+                yield return GetRenameResult(title, info, appendPosition);
+            }
+        }
+
+        private Result GetRenameResult(string rawName, WorkspaceInfo info, bool appendPosition)
+        {
+            var newName = GetNewWorkspaceName(rawName, info.WorkspaceIdx, appendPosition);
+
+            return new()
+            {
+                Title = $"Rename workspace: '{info.Name}' to '{newName}'",
                 Action = _ =>
                 {
                     if (_workspaceInfo == null)
                     {
-                        var stateMsg = GetStateMsg();
-                        _workspaceInfo ??= GetActiveWorkspaceInfo(stateMsg);
-                        newTitle = query.Search;
+                        var stateJson = GetStateJson();
+                        _workspaceInfo ??= new WorkspaceInfo(stateJson);
+                        newName = rawName;
                     }
 
-                    RenameWorkspace(_workspaceInfo with { Name = newTitle});
+                    RenameWorkspace(_workspaceInfo with { Name = newName });
                     _workspaceInfo = null;
                     return true;
                 }
             };
-            return new List<Result>{r};
-        }
-        
-            
-        private WorkspaceInfo GetActiveWorkspaceInfo(string stateMsg)
-        {
-            Console.WriteLine($"State is: {stateMsg}");
-            var state = JsonSerializer.Deserialize<State>(stateMsg)!;
-            var activeMonitor = (int) state
-                .Monitors.Focused;
-            var activeWorkspace = (int) state
-                .Monitors.Elements[activeMonitor]
-                .Workspaces.Focused;
-            var name = state
-                .Monitors.Elements[activeMonitor]
-                .Workspaces.Elements[activeWorkspace]
-                .Name;
-            return new WorkspaceInfo(activeMonitor, activeWorkspace, name);
         }
 
-        private string GetNewTitle(string userInput, int idx, bool appendWorkspacePosition) =>
+        private string GetNewWorkspaceName(string userInput, int idx, bool appendWorkspacePosition) =>
             appendWorkspacePosition
                 ? $"{userInput} ({idx + 1})"
                 : userInput;
 
-        private record WorkspaceInfo(int MonitorIdx, int WorkspaceIdx, string Name);
-
-        private string GetStateMsg()
+        private string GetStateJson()
         {
             using Process process = new();
             process.StartInfo.FileName = "powershell.exe";
