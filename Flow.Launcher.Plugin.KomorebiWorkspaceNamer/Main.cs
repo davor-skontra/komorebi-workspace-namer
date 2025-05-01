@@ -52,11 +52,12 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
         private Result GetRenameResult(string rawName, WorkspaceInfo info, bool appendPosition)
         {
+            var newName = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);
+            var oldNameWithNoPosition = GetWorkspaceNameWithoutPos(rawName, appendPosition);
+            
             var title = string.IsNullOrWhiteSpace(rawName)
-                ? $"Rename workspace '{rawName}' to ..."
-                : $"Rename workspace: '{rawName}' to '{rawName}'";
-
-            var nameWithPosition = GetNameWithPosition(rawName, info.WorkspaceIdx, appendPosition);
+                ? $"Rename workspace '{info.Name}' to ..."
+                : $"Rename workspace: '{info.Name}' to '{newName}'";
 
             return new()
             {
@@ -67,21 +68,41 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                     {
                         var stateJson = ProcessCalls.GetStateJson();
                         _workspaceInfo ??= new WorkspaceInfo(stateJson);
-                        nameWithPosition = GetNameWithPosition(rawName, info.WorkspaceIdx, appendPosition);;
+                        newName = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);;
                     }
 
-                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = nameWithPosition });
+                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = newName });
                     _workspaceInfo = null;
                     return true;
                 }
             };
         }
         
-        private string GetNameWithPosition(string userInput, int idx, bool appendWorkspacePosition) =>
-            appendWorkspacePosition
-                ? $"{userInput} ({idx + 1})"
-                : userInput;
 
+        private string GetWorkspaceNameWithPos(string rawName, int idx, bool appendWorkspacePosition) =>
+            appendWorkspacePosition
+                ? AppendPosition(rawName, idx)
+                : rawName;
+
+        private string AppendPosition(string text, int idx) => $"{text} ({idx + 1})";
+
+        private string GetWorkspaceNameWithoutPos(string rawName, bool appendWorkspacePosition) =>
+            appendWorkspacePosition
+                ? RemovePosition(rawName)
+                : rawName;
+
+        private string RemovePosition(string text)
+        {
+            var endAt = text.LastIndexOf('(');
+
+            if (endAt == -1)
+            {
+                return text;
+            }
+            
+            Range selectionRange = new(0, endAt - 1);
+            return text[selectionRange];
+        }
         public Control CreateSettingPanel()
         {
             SettingsControl sc = new(_settings);
