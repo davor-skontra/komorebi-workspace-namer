@@ -82,8 +82,6 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 ? $"{userInput} ({idx + 1})"
                 : userInput;
 
-
-
         public Control CreateSettingPanel()
         {
             SettingsControl sc = new(_settings);
