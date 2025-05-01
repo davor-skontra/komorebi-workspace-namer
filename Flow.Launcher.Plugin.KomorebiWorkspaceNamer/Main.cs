@@ -30,20 +30,21 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 _workspaceInfo ??= GetActiveWorkspaceInfo(stateMsg);
             }
 
-            var search = query.Search;
+            var newTitle = GetNewTitle(query.Search, _workspaceInfo.WorkspaceIdx, _settings.AppendIndex);
+            
             Result r = new()
             {
-                Title = $"Renaming workspace: '{_workspaceInfo.Name}' to '{search}'",
+                Title = $"Renaming workspace: '{_workspaceInfo.Name}' to '{newTitle}'",
                 Action = _ =>
                 {
                     if (_workspaceInfo == null)
                     {
                         var stateMsg = GetStateMsg();
                         _workspaceInfo ??= GetActiveWorkspaceInfo(stateMsg);
-                        search = query.Search;
+                        newTitle = query.Search;
                     }
 
-                    RenameWorkspace(_workspaceInfo with { Name = search});
+                    RenameWorkspace(_workspaceInfo with { Name = newTitle});
                     _workspaceInfo = null;
                     return true;
                 }
@@ -67,6 +68,11 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 .Name;
             return new WorkspaceInfo(activeMonitor, activeWorkspace, name);
         }
+
+        private string GetNewTitle(string userInput, int idx, bool appendWorkspacePosition) =>
+            appendWorkspacePosition
+                ? $"{userInput} {idx + 1}"
+                : userInput;
 
         private record WorkspaceInfo(int MonitorIdx, int WorkspaceIdx, string Name);
 
