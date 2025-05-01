@@ -55,8 +55,8 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             var newName = GetNewWorkspaceName(rawName, info.WorkspaceIdx, appendPosition);
 
             var title = string.IsNullOrWhiteSpace(rawName)
-                ? $"Rename workspace: '{info.Name}' to '{newName}'"
-                : $"Rename workspace '{info.Name}' to ...";
+                ? $"Rename workspace '{info.Name}' to ..."
+                : $"Rename workspace: '{info.Name}' to '{newName}'";
 
             return new()
             {
