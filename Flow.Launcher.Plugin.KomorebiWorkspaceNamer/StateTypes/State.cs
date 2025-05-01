@@ -50,6 +50,39 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
+        
+        [JsonPropertyName("containers")]
+        public Containers Containers { get; set; }
+
+        [JsonPropertyName("focused")]
+        public int Focused { get; set; }
+    }
+
+    public class Containers
+    {
+        [JsonPropertyName("elements")]
+        public ContainerElement[] Elements { get; set; }
+    }
+    
+    public class ContainerElement
+    {
+        [JsonPropertyName("windows")]
+        public Windows Windows { get; set; }
+    }
+
+    public class Windows
+    {
+        [JsonPropertyName("elements")]
+        public WindowElement[] Elements { get; set; }
+        
+        [JsonPropertyName("focused")]
+        public int Focused { get; set; }
+    }
+
+    public class WindowElement
+    {
+        [JsonPropertyName("title")] 
+        public string Title { get; set; }
     }
 }
    
