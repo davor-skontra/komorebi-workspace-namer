@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>Flow.Launcher.Plugin.KomorebiWorkspaceNamer</AssemblyName>
     <PackageId>Flow.Launcher.Plugin.KomorebiWorkspaceNamer</PackageId>
     <Authors>davor-skontra</Authors>
@@ -29,6 +31,12 @@
   <ItemGroup>
     <PackageReference Include="Flow.Launcher.Plugin" Version="4.4.0" />
     <PackageReference Include="System.Text.Json" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="UserConfig\SettingsControl.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>

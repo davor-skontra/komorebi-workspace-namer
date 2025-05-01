@@ -1,22 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Flow.Launcher.Plugin;
+using System.Windows.Controls;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
+using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
+using SettingsControl = Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig.SettingsControl;
 
 namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 {
-    public class KomorebiWorkspaceNamer : IPlugin
+    public class KomorebiWorkspaceNamer : IPlugin, ISettingProvider
     {
         private PluginInitContext _context = null!;
         private WorkspaceInfo? _workspaceInfo;
-
+        private Settings _settings;
+        
         public void Init(PluginInitContext context)
         {
             _context = context;
+            _settings = context.API.LoadSettingJsonStorage<Settings>();
         }
         
 
@@ -88,6 +90,12 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.RedirectStandardOutput = true;
             process.Start();
+        }
+
+        public Control CreateSettingPanel()
+        {
+            SettingsControl sc = new(_settings);
+            return sc;
         }
     }
 }
