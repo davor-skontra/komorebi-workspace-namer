@@ -2,5 +2,5 @@
 
 public class Settings
 {
-    public bool AppendIndex { get; set; }
+    public bool AppendPosition { get; set; }
 }

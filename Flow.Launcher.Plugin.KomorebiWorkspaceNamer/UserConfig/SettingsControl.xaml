@@ -19,6 +19,6 @@
             Grid.Row="0"
             Margin="10"
             Content="Append workspace position"
-            IsChecked="{Binding AppendIndex}" />
+            IsChecked="{Binding AppendPosition}" />
     </Grid>
 </UserControl>

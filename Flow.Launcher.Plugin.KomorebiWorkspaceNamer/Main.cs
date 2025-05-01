@@ -30,7 +30,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                 _workspaceInfo ??= GetActiveWorkspaceInfo(stateMsg);
             }
 
-            var newTitle = GetNewTitle(query.Search, _workspaceInfo.WorkspaceIdx, _settings.AppendIndex);
+            var newTitle = GetNewTitle(query.Search, _workspaceInfo.WorkspaceIdx, _settings.AppendPosition);
             
             Result r = new()
             {
@@ -71,7 +71,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
         private string GetNewTitle(string userInput, int idx, bool appendWorkspacePosition) =>
             appendWorkspacePosition
-                ? $"{userInput} {idx + 1}"
+                ? $"{userInput} ({idx + 1})"
                 : userInput;
 
         private record WorkspaceInfo(int MonitorIdx, int WorkspaceIdx, string Name);
