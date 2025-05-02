@@ -2,5 +2,13 @@
 
 public class Settings
 {
-    public bool AppendPosition { get; set; }
+    public enum IndexStyleKind
+    {
+        None,
+        ArabicNumerals,
+        RomanNumerals,
+        FromKomorebiConfig
+    }
+
+    public IndexStyleKind IndexStyle = IndexStyleKind.ArabicNumerals;
 }

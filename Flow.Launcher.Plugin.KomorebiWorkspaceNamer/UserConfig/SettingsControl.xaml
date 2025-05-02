@@ -15,10 +15,11 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <CheckBox
-            Grid.Row="0"
-            Margin="10"
-            Content="Append workspace position"
-            IsChecked="{Binding AppendPosition}" />
+        <ListBox 
+            Name="IndexingStyleLb" 
+            Width="auto" 
+            Height="auto" 
+            SelectionChanged="SetIndexingStyle" 
+            SelectionMode="Single"/>
     </Grid>
 </UserControl>

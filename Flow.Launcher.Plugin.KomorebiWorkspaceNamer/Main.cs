@@ -21,7 +21,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             var workspaceInfo = GetWorkspaceInfo();
 
-            var appendPosition = _settings.AppendPosition;
+            var appendPosition = _settings.IndexStyle == Settings.IndexStyleKind.ArabicNumerals;
             List<Result> results = new();
             
             var manualRename = GetRenameResult(query.Search, workspaceInfo, appendPosition);
