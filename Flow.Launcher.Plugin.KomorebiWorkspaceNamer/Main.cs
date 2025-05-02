@@ -10,7 +10,6 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
     public class KomorebiWorkspaceNamer : IPlugin, ISettingProvider
     {
         private PluginInitContext _context = null!;
-        private WorkspaceInfo? _workspaceInfo;
         private Settings _settings;
         
         public void Init(PluginInitContext context)
@@ -21,25 +20,27 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
         public List<Result> Query(Query query)
         {
-            if (_workspaceInfo == null)
-            {
-                var stateJson = ProcessCalls.GetStateJson();
-                _workspaceInfo ??= new WorkspaceInfo(stateJson);
-            }
-            
+            var workspaceInfo = GetWorkspaceInfo();
+
             var search = query.Search;
             var appendPosition = _settings.AppendPosition;
             List<Result> results = new();
             
             if (!string.IsNullOrWhiteSpace(search))
             {
-                var manualRename = GetRenameResult(query.Search, _workspaceInfo, appendPosition);
+                var manualRename = GetRenameResult(query.Search, workspaceInfo, appendPosition);
                 results.Add(manualRename);
             }
             
-            results.AddRange(GetAppRenameResults(_workspaceInfo, appendPosition));
+            results.AddRange(GetAppRenameResults(workspaceInfo, appendPosition));
             
             return results;
+        }
+
+        private WorkspaceInfo GetWorkspaceInfo()
+        {
+            var stateJson = ProcessCalls.GetStateJson();
+            return new WorkspaceInfo(stateJson);
         }
 
         private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, bool appendPosition)
@@ -52,28 +53,20 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
         private Result GetRenameResult(string rawName, WorkspaceInfo info, bool appendPosition)
         {
-            var newName = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);
-            var oldNameWithNoPosition = GetWorkspaceNameWithoutPos(rawName, appendPosition);
+            var nameWithPosition = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);
+            var oldNameWithNoPosition = GetWorkspaceNameWithoutPos(info.Name, appendPosition);
             
             var title = string.IsNullOrWhiteSpace(rawName)
-                ? $"Rename workspace '{info.Name}' to ..."
-                : $"Rename workspace: '{info.Name}' to '{newName}'";
+                ? $"Rename workspace '{oldNameWithNoPosition}' to ..."
+                : $"Rename workspace: '{oldNameWithNoPosition}' to '{rawName}'";
 
             return new()
             {
                 Title = title,
                 Action = _ =>
                 {
-                    if (_workspaceInfo == null)
-                    {
-                        var stateJson = ProcessCalls.GetStateJson();
-                        _workspaceInfo ??= new WorkspaceInfo(stateJson);
-                        newName = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);;
-                    }
-
-                    ProcessCalls.RenameWorkspace(_workspaceInfo with { Name = newName });
+                    ProcessCalls.RenameWorkspace(info, nameWithPosition);
                     _context.API.ChangeQuery("", true);
-                    _workspaceInfo = null;
                     return true;
                 }
             };

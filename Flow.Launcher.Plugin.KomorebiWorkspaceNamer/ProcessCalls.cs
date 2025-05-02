@@ -16,11 +16,11 @@ public static class ProcessCalls
         return output;
     }
 
-    public static void RenameWorkspace(WorkspaceInfo info)
+    public static void RenameWorkspace(WorkspaceInfo info, string name)
     {
         using Process process = new();
         process.StartInfo.FileName = "powershell.exe";
-        process.StartInfo.Arguments = $"-c komorebic workspace-name {info.MonitorIdx} {info.WorkspaceIdx} \"\"\"{info.Name}\"\"\"";
+        process.StartInfo.Arguments = $"-c komorebic workspace-name {info.MonitorIdx} {info.WorkspaceIdx} \"\"\"{name}\"\"\"";
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.RedirectStandardOutput = true;
         process.Start();
