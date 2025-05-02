@@ -16,7 +16,7 @@ public partial class SettingsControl: UserControl
 
     private void SetIndexingStyle(object sender, SelectionChangedEventArgs e)
     {
-        var content = ((sender as ListBox)!.SelectedItem as ListBoxItem)!.Content.ToString()!;
-        (DataContext as Settings)!.IndexStyle = Enum.Parse<Settings.IndexStyleKind>(content);
+        var content = IndexingStyleLb.SelectedItems[0]?.ToString();
+        (DataContext as Settings)!.IndexStyle = Enum.Parse<Settings.IndexStyleKind>(content!);
     }
 }
