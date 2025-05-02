@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer;
 
@@ -24,5 +26,22 @@ public static class ProcessCalls
         process.StartInfo.CreateNoWindow = true;
         process.StartInfo.RedirectStandardOutput = true;
         process.Start();
+    }
+
+    public static string? GetKomorebiConfigJson()
+    {
+        var path = Environment.GetEnvironmentVariable("KOMOREBI_CONFIG_HOME")
+                   ?? Environment.GetEnvironmentVariable("USERPROFILE");
+
+        path += "\\komorebi.json";
+        
+        if (!Path.Exists(path))
+        {
+            return null;
+        }
+
+        var result = File.ReadAllText(path);
+
+        return result;
     }
 }
