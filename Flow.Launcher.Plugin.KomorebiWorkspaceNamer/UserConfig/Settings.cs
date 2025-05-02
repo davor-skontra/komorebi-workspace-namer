@@ -2,5 +2,5 @@
 
 public class Settings
 {
-    public IndexStyler.Kind IndexStyler;
+    public IndexStyler.Kind IndexStyler = UserConfig.IndexStyler.Kind.ArabicNumerals;
 }
