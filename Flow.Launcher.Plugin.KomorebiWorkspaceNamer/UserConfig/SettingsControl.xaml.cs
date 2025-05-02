@@ -10,13 +10,13 @@ public partial class SettingsControl: UserControl
     public SettingsControl(Settings settings)
     {
         InitializeComponent();
-        IndexingStyleLb.ItemsSource = Enum.GetNames<Settings.IndexStyleKind>();
+        IndexingStyleLb.ItemsSource = Enum.GetNames<IndexStyler.Kind>();
         DataContext = settings;
     }
 
     private void SetIndexingStyle(object sender, SelectionChangedEventArgs e)
     {
         var content = IndexingStyleLb.SelectedItems[0]?.ToString();
-        (DataContext as Settings)!.IndexStyle = Enum.Parse<Settings.IndexStyleKind>(content!);
+        (DataContext as Settings)!.IndexStyler = Enum.Parse<IndexStyler.Kind>(content!);
     }
 }

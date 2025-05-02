@@ -21,12 +21,11 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             var workspaceInfo = GetWorkspaceInfo();
 
-            var appendPosition = _settings.IndexStyle == Settings.IndexStyleKind.ArabicNumerals;
             List<Result> results = new();
             
-            var manualRename = GetRenameResult(query.Search, workspaceInfo, appendPosition);
+            var manualRename = GetRenameResult(query.Search, workspaceInfo, _settings.IndexStyler);
             results.Add(manualRename);
-            results.AddRange(GetAppRenameResults(workspaceInfo, appendPosition));
+            results.AddRange(GetAppRenameResults(workspaceInfo, _settings.IndexStyler));
             
             return results;
         }
@@ -37,7 +36,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             return new WorkspaceInfo(stateJson);
         }
 
-        private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, bool appendPosition)
+        private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, IndexStyler.Kind appendPosition)
         {
             foreach (var title in info.SortedWindowTitles)
             {
@@ -45,10 +44,11 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             }
         }
 
-        private Result GetRenameResult(string rawName, WorkspaceInfo info, bool appendPosition)
+        private Result GetRenameResult(string rawName, WorkspaceInfo info, IndexStyler.Kind appendPosition)
         {
-            var nameWithPosition = GetWorkspaceNameWithPos(rawName, info.WorkspaceIdx, appendPosition);
-            var oldNameWithNoPosition = GetWorkspaceNameWithoutPos(info.Name, appendPosition);
+            var styledName = new IndexStyler(appendPosition, rawName, info);
+            var nameWithPosition = styledName.GetMarkedName();
+            var oldNameWithNoPosition = IndexStyler.RemovePosition(info.Name);
             
             var title = string.IsNullOrWhiteSpace(rawName)
                 ? $"Rename workspace '{oldNameWithNoPosition}' to ..."
@@ -66,30 +66,6 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             };
         }
 
-        private string GetWorkspaceNameWithPos(string rawName, int idx, bool appendWorkspacePosition) =>
-            appendWorkspacePosition
-                ? AppendPosition(rawName, idx)
-                : rawName;
-
-        private string AppendPosition(string text, int idx) => $"{text} ({idx + 1})";
-
-        private string GetWorkspaceNameWithoutPos(string rawName, bool appendWorkspacePosition) =>
-            appendWorkspacePosition
-                ? RemovePosition(rawName)
-                : rawName;
-
-        private string RemovePosition(string text)
-        {
-            var endAt = text.LastIndexOf('(');
-
-            if (endAt == -1)
-            {
-                return text;
-            }
-            
-            Range selectionRange = new(0, endAt - 1);
-            return text[selectionRange];
-        }
         public Control CreateSettingPanel()
         {
             SettingsControl sc = new(_settings);
