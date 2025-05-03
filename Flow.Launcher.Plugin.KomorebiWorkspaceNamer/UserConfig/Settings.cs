@@ -2,5 +2,5 @@
 
 public class Settings
 {
-    public IndexStyler.Kind IndexStyler = UserConfig.IndexStyler.Kind.ArabicNumerals;
+    public IndexStyler.Kind IndexStyler = Plugin.KomorebiWorkspaceNamer.IndexStyler.Kind.ArabicNumerals;
 }

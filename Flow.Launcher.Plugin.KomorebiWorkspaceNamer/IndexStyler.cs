@@ -3,7 +3,7 @@ using System.Text.Json;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
 using RomanNumerals;
 
-namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
+namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer;
 
 public class IndexStyler
 {
@@ -54,7 +54,7 @@ public class IndexStyler
                     .Monitors[_info.MonitorIdx]
                     .Workspaces[_info.WorkspaceIdx]
                     .Name;
-                break;
+x 
             default:
                 throw new ArgumentOutOfRangeException(nameof(_kind), _kind, null);
         }
