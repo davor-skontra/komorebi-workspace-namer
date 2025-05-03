@@ -10,7 +10,6 @@ public class IndexStyler
     private readonly Kind _kind;
     private readonly string _rawText;
     private readonly WorkspaceInfo _info;
-    private readonly string _marker;
 
     private Lazy<KomorebiConfig> _komorebiConfig = new(GetKomorebiConfig);
 
