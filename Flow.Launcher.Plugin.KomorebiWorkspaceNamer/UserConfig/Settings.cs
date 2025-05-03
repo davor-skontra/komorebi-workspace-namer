@@ -13,6 +13,10 @@ public class Settings
     {
         foreach (var name in PresetNames.Split(PresetNamesSeparator))
         {
+            if (name == "")
+            {
+                continue;
+            }
             yield return name.Trim();
         }
     }
