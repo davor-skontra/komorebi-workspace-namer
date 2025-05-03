@@ -46,9 +46,9 @@ public class IndexStyler
             case Kind.None:
                 return "";
             case Kind.ArabicNumerals:
-                return _info.WorkspaceIdx.ToString();
+                return (_info.WorkspaceIdx + 1).ToString();
             case Kind.RomanNumerals:
-                return new RomanNumeral(_info.WorkspaceIdx).ToString();
+                return new RomanNumeral(_info.WorkspaceIdx + 1).ToString();
             case Kind.FromKomorebiConfig:
                 return _komorebiConfig
                     .Value
