@@ -15,8 +15,10 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0">Workspace index style</TextBlock>
         <ListBox 
-            Name="IndexingStyleLb" 
+            Name="IndexingStyleLb"
+            Grid.Row="1"
             Width="auto" 
             Height="auto" 
             SelectionChanged="SetIndexingStyle" 
