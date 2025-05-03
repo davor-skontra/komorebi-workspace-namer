@@ -5,27 +5,34 @@
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
      d:DesignHeight="300"
-     d:DesignWidth="300"
+     d:DesignWidth="auto"
      mc:Ignorable=" d" 
      d:DataContext="{d:Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig.Settings }">
 
-    <Grid Margin="10">
+    <Grid Margin="10" Width="auto">
         <Grid.ColumnDefinitions />
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <TextBlock>Comma separated list of predefined names</TextBlock>
+        <DockPanel 
+            Grid.Row="0"
+            Width="auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            Margin="0, 0, 0, 10pt"
+            >
+            <TextBlock VerticalAlignment="Center">Comma separated list of predefined names:</TextBlock>
+            <Rectangle Width="10pt"/>
             <TextBox 
-                Width="auto" 
+                MinWidth="100pt"
                 Name="PredefinedNamesTb"
                 TextChanged="OnTextChanged"
                 Loaded="OnPredefinedNamesTbLoaded"
                 />
-        </StackPanel>
-        <TextBlock Grid.Row="1">Workspace index style</TextBlock>
+        </DockPanel>
+        <TextBlock Grid.Row="1">Workspace index style:</TextBlock>
         <ListBox 
             Name="IndexingStyleLb"
             Grid.Row="2"
