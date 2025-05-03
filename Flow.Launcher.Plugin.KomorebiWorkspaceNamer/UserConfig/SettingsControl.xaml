@@ -14,14 +14,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0">Workspace index style</TextBlock>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <TextBlock>Comma separated list of predefined names</TextBlock>
+            <TextBox 
+                Width="auto" 
+                Name="PredefinedNamesTb"
+                TextChanged="OnTextChanged"
+                Loaded="OnPredefinedNamesTbLoaded"
+                />
+        </StackPanel>
+        <TextBlock Grid.Row="1">Workspace index style</TextBlock>
         <ListBox 
             Name="IndexingStyleLb"
-            Grid.Row="1"
+            Grid.Row="2"
             Width="auto" 
-            Height="auto" 
+            Height="auto"
             SelectionChanged="SetIndexingStyle" 
-            SelectionMode="Single"/>
+            SelectionMode="Single"
+            Loaded="OnIndexingStyleLoaded"
+            />
     </Grid>
 </UserControl>

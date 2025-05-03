@@ -1,6 +1,19 @@
-﻿namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
 
 public class Settings
 {
-    public IndexStyler.Kind IndexStyler = Plugin.KomorebiWorkspaceNamer.IndexStyler.Kind.ArabicNumerals;
+    private const char PresetNamesSeparator = ',';
+    public IndexStyler.Kind IndexStyler { get; set; } = Plugin.KomorebiWorkspaceNamer.IndexStyler.Kind.ArabicNumerals;
+    public string PresetNames { get; set; } = "";
+
+    public IEnumerable<string> GetPresetNames()
+    {
+        foreach (var name in PresetNames.Split(PresetNamesSeparator))
+        {
+            yield return name.Trim();
+        }
+    }
 }

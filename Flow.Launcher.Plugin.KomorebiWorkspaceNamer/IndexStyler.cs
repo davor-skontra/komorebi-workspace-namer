@@ -54,20 +54,9 @@ public class IndexStyler
                     .Monitors[_info.MonitorIdx]
                     .Workspaces[_info.WorkspaceIdx]
                     .Name;
-x 
             default:
                 throw new ArgumentOutOfRangeException(nameof(_kind), _kind, null);
         }
-    }
-    
-    private string GetWorkspaceNameWithoutMarker(string name)
-    {
-        if (_kind == Kind.None)
-        {
-            return name;
-        }
-
-        return RemovePosition(name);
     }
     
     public static string RemovePosition(string text)

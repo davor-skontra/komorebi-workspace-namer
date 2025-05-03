@@ -23,8 +23,8 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 
             List<Result> results = new();
             
-            var manualRename = GetRenameResult(query.Search, workspaceInfo, _settings.IndexStyler);
-            results.Add(manualRename);
+            results.Add(GetRenameResult(query.Search, workspaceInfo, _settings.IndexStyler));
+            results.AddRange(GetPresetNamesResult(workspaceInfo, _settings.IndexStyler));
             results.AddRange(GetAppRenameResults(workspaceInfo, _settings.IndexStyler));
             
             return results;
@@ -36,17 +36,30 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             return new WorkspaceInfo(stateJson);
         }
 
-        private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, IndexStyler.Kind appendPosition)
+        private IEnumerable<Result> GetPresetNamesResult(WorkspaceInfo info, IndexStyler.Kind style)
         {
-            foreach (var title in info.SortedWindowTitles)
+            var presetNames = _settings.GetPresetNames();
+            foreach (var name in presetNames)
             {
-                yield return GetRenameResult(title, info, appendPosition);
+                if (name == "")
+                {
+                    continue;
+                }
+                yield return GetRenameResult(name, info, style);
             }
         }
 
-        private Result GetRenameResult(string rawName, WorkspaceInfo info, IndexStyler.Kind appendPosition)
+        private IEnumerable<Result> GetAppRenameResults(WorkspaceInfo info, IndexStyler.Kind style)
         {
-            var styledName = new IndexStyler(appendPosition, rawName, info);
+            foreach (var title in info.SortedWindowTitles)
+            {
+                yield return GetRenameResult(title, info, style);
+            }
+        }
+
+        private Result GetRenameResult(string rawName, WorkspaceInfo info, IndexStyler.Kind style)
+        {
+            var styledName = new IndexStyler(style, rawName, info);
             var nameWithPosition = styledName.GetMarkedName();
             var oldNameWithNoPosition = IndexStyler.RemovePosition(info.Name);
             
