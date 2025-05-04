@@ -13,7 +13,13 @@ You can also select any option that shows up after you type wn. As of version 0.
 
 
 ### Settings
+![image](https://github.com/user-attachments/assets/17a765af-31d5-4c54-a7c5-df1e68803439)
 
+#### Predefined names
+
+If you want some commonly used names to appear as options when you type ve, add them into settings, separated by commas
+
+#### Workspace indicator
 By default any name will be suffixed with an arabic numeral in paranthesis (eg `(1)`). This is inteded to mark which workspace you are on. In settings you can change this to use
 - None
 - Arabic Numeral
