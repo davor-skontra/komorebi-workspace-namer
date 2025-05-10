@@ -9,6 +9,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
 {
     public class KomorebiWorkspaceNamer : IPlugin, ISettingProvider
     {
+        private const string IcoPath = "icon.png";
         private PluginInitContext _context = null!;
         private Settings _settings = null!;
         
@@ -80,7 +81,8 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
                     ProcessCalls.RenameWorkspace(info, nameWithPosition);
                     _context.API.ChangeQuery("", true);
                     return true;
-                }
+                },
+                IcoPath = IcoPath
             };
         }
 
