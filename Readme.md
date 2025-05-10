@@ -1,7 +1,11 @@
-Flow.Launcher.Plugin.KomorebiWorkspaceNamer
+![Project logo. It's a pixel art picture of a watermelon with the letters KWN stenciled on it. Al done in the commodore 64 color palette](/Flow.Launcher.Plugin.KomorebiWorkspaceNamer/icon.png)
+
+Komorebi Workspace Namer
 ==================
 
 A plugin for the [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher) that lets you quickly name your focused Komorebi workspace.
+
+
 
 Current version is mvp and is not yet published on the flow plugin repo.
 
