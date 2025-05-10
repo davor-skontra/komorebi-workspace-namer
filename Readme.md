@@ -11,7 +11,11 @@ Current version is mvp and is not yet published on the flow plugin repo.
 Type: 
 `wn <new workspace name>`
 And hit enter to rename your currently selected workspace.
-You can also select any option that shows up after you type wn. As of version 0.0.2 these are currently generated from tiles of visible windows on the active worskpace.
+You can also select any option that shows up after you type wn.
+
+These are currently generated from tiles of visible windows on the active worskpace. 
+
+You can also add your own presets in settings which is really useful if you have some often needed names like "Work, Personal, Art, Development etc".
 
 
 ### Settings
