@@ -27,8 +27,14 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             
             results.Add(GetRenameResult(query.Search, workspaceInfo, _settings.IndexStyler));
 
+            var cleanWorkspaceName = IndexStyler.RemovePosition(workspaceInfo.Name);
+            
             foreach (var name in GetMatchingNames(search, workspaceInfo))
             {
+                if (name == cleanWorkspaceName)
+                {
+                    continue;
+                }
                 Result r = GetRenameResult(name, workspaceInfo, _settings.IndexStyler);
                 results.Add(r); 
             }
