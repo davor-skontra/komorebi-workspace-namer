@@ -5,8 +5,6 @@ Komorebi Workspace Namer
 
 A plugin for the [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher) that lets you quickly name your focused Komorebi workspace.
 
-
-
 Current version is mvp and is not yet published on the flow plugin repo.
 
 ### Usage
@@ -29,3 +27,9 @@ By default any name will be suffixed with an arabic numeral in paranthesis (eg `
 - Arabic Numeral
 - Roman Numeral
 - Workspace names from your Komorebi config file. (`komrebi.json`)
+
+Example when using Arabic numeral as indicators.
+
+![image](https://github.com/user-attachments/assets/92cbdd90-5463-4fba-860e-0fdbe6501222)
+
+Note that the indicator is only changed after you rename any workspace, just changing the setting does not automatically rename all your workspaces.
