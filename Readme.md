@@ -28,7 +28,7 @@ By default any name will be suffixed with an arabic numeral in paranthesis (eg `
 - Roman Numeral
 - Workspace names from your Komorebi config file. (`komrebi.json`)
 
-Example when using Arabic numeral as indicators.
+Example when using Arabic numerals as indicators.
 
 ![image](https://github.com/user-attachments/assets/92cbdd90-5463-4fba-860e-0fdbe6501222)
 
