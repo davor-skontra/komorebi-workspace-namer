@@ -19,7 +19,7 @@ You can also add your own presets in settings which is really useful if you have
 
 
 ### Settings
-![image](https://github.com/user-attachments/assets/17a765af-31d5-4c54-a7c5-df1e68803439)
+![image](https://github.com/user-attachments/assets/2364cd91-c0bf-408e-bd1a-74dc838ed38d)
 
 #### Predefined names
 
