@@ -3,11 +3,8 @@
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - .github/workflows/*
-      - .gitignore
-      - idea/*
-      - Readme.md
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 jobs:
   build:
 
