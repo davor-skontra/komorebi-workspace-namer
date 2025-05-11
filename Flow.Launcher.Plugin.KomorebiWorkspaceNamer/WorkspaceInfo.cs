@@ -32,7 +32,7 @@ public record WorkspaceInfo
                 
         MonitorIdx = activeMonitorIdx;
         WorkspaceIdx = activeWorkspaceIdx;
-        Name = name;
+        Name = name ?? (WorkspaceIdx + 1).ToString();
 
         _windowTitlesSorted = GetSortedWindowTitles(state, activeWorkspace) 
                               ?? new HashSet<string>();

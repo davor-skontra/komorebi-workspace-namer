@@ -49,7 +49,7 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes
     public class WorkspacesElement
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         [JsonPropertyName("containers")]
         public Containers Containers { get; set; }
