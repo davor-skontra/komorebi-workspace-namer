@@ -35,5 +35,3 @@ By default any name will be suffixed with an arabic numeral in paranthesis (eg `
 Example when using Arabic numerals as indicators.
 
 ![image](https://github.com/user-attachments/assets/92cbdd90-5463-4fba-860e-0fdbe6501222)
-
-Note that the indicator is only changed after you rename any workspace, just changing the setting does not automatically rename all your workspaces.
