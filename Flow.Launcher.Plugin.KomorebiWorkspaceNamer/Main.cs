@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Controls;
+using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.StateTypes;
 using Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig;
 using SettingsControl = Flow.Launcher.Plugin.KomorebiWorkspaceNamer.UserConfig.SettingsControl;
 
@@ -17,7 +19,24 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             _context = context;
             _settings = context.API.LoadSettingJsonStorage<Settings>();
+            RenameAllWorkspaces(_settings.IndexStyler, _settings.IndexStyler);
+            _settings.StyleChangeEvent -= RenameAllWorkspaces;
+            _settings.StyleChangeEvent += RenameAllWorkspaces;
         }
+
+        private void RenameAllWorkspaces(IndexStyler.Kind previous, IndexStyler.Kind current)
+        {
+            var state = GetState();
+            var workspaces = WorkspaceInfo.CreateAllFrom(state);
+            foreach (var info in workspaces)
+            {
+                var oldNameWithNoPosition = IndexStyler.RemovePosition(info.Name);
+                var styledName = new IndexStyler(current, oldNameWithNoPosition, info);
+                var nameWithPosition = styledName.GetMarkedName();
+                ProcessCalls.RenameWorkspace(info, nameWithPosition);
+            }
+        }
+
 
         public List<Result> Query(Query query)
         {
@@ -57,10 +76,17 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             }
         }
 
-        private WorkspaceInfo GetWorkspaceInfo()
+        private State GetState()
         {
             var stateJson = ProcessCalls.GetStateJson();
-            return new WorkspaceInfo(stateJson);
+            var state = JsonSerializer.Deserialize<State>(stateJson)!;
+            return state;
+        }
+
+        private WorkspaceInfo GetWorkspaceInfo()
+        {
+            var state = GetState();
+            return WorkspaceInfo.CreateFrom(state);
         }
         
         private Result GetRenameResult(string rawName, WorkspaceInfo info, IndexStyler.Kind style)
