@@ -19,9 +19,8 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         {
             _context = context;
             _settings = context.API.LoadSettingJsonStorage<Settings>();
-            RenameAllWorkspaces(_settings.IndexStyler, _settings.IndexStyler);
-            _settings.StyleChangeEvent -= RenameAllWorkspaces;
             _settings.StyleChangeEvent += RenameAllWorkspaces;
+            RenameAllWorkspaces(_settings.IndexStyler, _settings.IndexStyler);
         }
 
         private void RenameAllWorkspaces(IndexStyler.Kind previous, IndexStyler.Kind current)
