@@ -13,6 +13,7 @@ if (Test-Path $flowLauncherExe) {
 
     Copy-Item "Flow.Launcher.Plugin.KomorebiWorkspaceNamer\bin\Debug\win-x64\publish" "$AppDataFolder\FlowLauncher\Plugins\" -Recurse -Force
     Rename-Item -Path "$AppDataFolder\FlowLauncher\Plugins\publish" -NewName "KomorebiWorkspaceNamer"
+    Copy-Item "Flow.Launcher.Plugin.KomorebiWorkspaceNamer\Icon.png" "$AppDataFolder\FlowLauncher\Plugins\KomorebiWorkspaceNamer\Icon.png" -Force
 
     Start-Sleep -Seconds 2
     Start-Process $flowLauncherExe

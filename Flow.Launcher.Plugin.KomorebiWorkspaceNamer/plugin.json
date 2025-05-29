@@ -4,9 +4,9 @@
     "Name": "Komorebi Workspace Namer",
     "Description": "Rename your focused Komorebi workspace.",
     "Author": "davor-skontra",
-    "Version": "0.0.5",
+    "Version": "1.0.0",
     "Language": "csharp",
     "Website": "https://github.com/davor-skontra/Flow.Launcher.Plugin.KomorebiWorkspaceNamer",
-    "IcoPath": "icon.png",
+    "IcoPath": "Icon.png",
     "ExecuteFileName": "Flow.Launcher.Plugin.KomorebiWorkspaceNamer.dll"
 }
