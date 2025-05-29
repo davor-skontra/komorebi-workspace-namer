@@ -1,4 +1,4 @@
-![Project logo. It's a pixel art picture of a watermelon with the letters KWN stenciled on it. Al done in the commodore 64 color palette](/Flow.Launcher.Plugin.KomorebiWorkspaceNamer/icon.png)
+![Project logo. It's a pixel art picture of a watermelon with the letters KWN stenciled on it. Al done in the commodore 64 color palette](/Flow.Launcher.Plugin.KomorebiWorkspaceNamer/Icon.png)
 
 Komorebi Workspace Namer
 ==================
