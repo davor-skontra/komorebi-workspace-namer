@@ -7,6 +7,6 @@
     "Version": "0.0.5",
     "Language": "csharp",
     "Website": "https://github.com/davor-skontra/Flow.Launcher.Plugin.KomorebiWorkspaceNamer",
-    "IcoPath": "icon.png",
+    "IcoPath": "Icon.png",
     "ExecuteFileName": "Flow.Launcher.Plugin.KomorebiWorkspaceNamer.dll"
 }
