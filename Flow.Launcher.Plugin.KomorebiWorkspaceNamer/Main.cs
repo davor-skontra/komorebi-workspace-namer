@@ -26,6 +26,10 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
         private void RenameAllWorkspaces(IndexStyler.Kind previous, IndexStyler.Kind current)
         {
             var state = GetState();
+            if (state == null)
+            {
+                return;
+            }
             var workspaces = WorkspaceInfo.CreateAllFrom(state);
             foreach (var info in workspaces)
             {
@@ -43,6 +47,11 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             var workspaceInfo = GetWorkspaceInfo();
 
             List<Result> results = new();
+
+            if (workspaceInfo == null)
+            {
+                return results;
+            }
             
             results.Add(GetRenameResult(query.Search, workspaceInfo, _settings.IndexStyler));
 
@@ -75,17 +84,26 @@ namespace Flow.Launcher.Plugin.KomorebiWorkspaceNamer
             }
         }
 
-        private State GetState()
+        private State? GetState()
         {
             var stateJson = ProcessCalls.GetStateJson();
-            var state = JsonSerializer.Deserialize<State>(stateJson)!;
-            return state;
+            try
+            {
+                var state = JsonSerializer.Deserialize<State>(stateJson);
+                return state;
+            }
+            catch (JsonException _ )
+            {
+                return null;
+            }
         }
 
-        private WorkspaceInfo GetWorkspaceInfo()
+        private WorkspaceInfo? GetWorkspaceInfo()
         {
             var state = GetState();
-            return WorkspaceInfo.CreateFrom(state);
+            return state != null 
+                ? WorkspaceInfo.CreateFrom(state)
+                : null;
         }
         
         private Result GetRenameResult(string rawName, WorkspaceInfo info, IndexStyler.Kind style)
